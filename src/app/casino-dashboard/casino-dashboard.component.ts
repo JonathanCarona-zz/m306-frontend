@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-casino-dashboard',
@@ -15,7 +16,7 @@ export class CasinoDashboardComponent implements OnInit {
     }
   ]
 
-  constructor() { }
+  constructor(public authservice: AuthService) { }
 
   ngOnInit(): void {
   }

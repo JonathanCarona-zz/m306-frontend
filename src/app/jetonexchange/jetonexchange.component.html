@@ -19,10 +19,10 @@
                 <input type="text" disabled class="form-control" formControlName="amount" id="amount">
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block mt-5">Kaufen</button>
+            <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-block mt-5">Kaufen</button>
 
         </div>
     </form>
 
-    <a href="">Weiterfahren ohne zu kaufen</a>
+    <a [routerLink]="['/casino']">Weiterfahren ohne zu kaufen</a>
 </div>

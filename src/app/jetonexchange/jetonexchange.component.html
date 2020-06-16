@@ -1,24 +1,28 @@
 <div class="content container">
     <h1 class="mt-5 text-center">Jeton umwandeln</h1>
     <h2 class="mt-5 text-center text-muted">Aktueller Stand: {{currentJeton}} Jeton(s)</h2>
+    <form [formGroup]="form" (submit)="submit()">
 
-    <div class="form-row mt-5 mb-3">
-        <div class="form-group col-md-4">
-            <label for="jeton">Jeton</label>
-            <input type="number" (input)="txtChanged($event)" class="form-control" id="jeton">
-        </div>
-        <div class="form-group col-md-4 text-center align-middle">
-            <span class="material-icons md-48">
-                arrow_forward
-            </span>
-        </div>
-        <div class="form-group col-md-4">
-            <label for="amount">Betrag</label>
-            <input type="text" disabled class="form-control" id="amount">
-        </div>
+        <div class="form-row mt-5 mb-3">
+            <div class="form-group col-md-4">
+                <label for="jeton">Jeton</label>
+                <input type="number" (input)="txtChanged($event)" formControlName="jeton" class="form-control"
+                    id="jeton">
+            </div>
+            <div class="form-group col-md-4 text-center align-middle">
+                <span class="material-icons md-48">
+                    arrow_forward
+                </span>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="amount">Betrag in $</label>
+                <input type="text" disabled class="form-control" formControlName="amount" id="amount">
+            </div>
 
-        <button type="submit" class="btn btn-primary btn-block mt-5">Kaufen</button>
-    </div>
+            <button type="submit" class="btn btn-primary btn-block mt-5">Kaufen</button>
+
+        </div>
+    </form>
 
     <a href="">Weiterfahren ohne zu kaufen</a>
 </div>

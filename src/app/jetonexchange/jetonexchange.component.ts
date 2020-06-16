@@ -16,8 +16,8 @@ export class JetonexchangeComponent implements OnInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      jeton: ['', Validators.required],
-      amount: ['', Validators.required]
+      jeton: ['', [Validators.required, Validators.min(1)]],
+      amount: ['']
     })
   }
 

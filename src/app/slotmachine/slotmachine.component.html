@@ -1,0 +1,45 @@
+<div class="mt-3 align-baseline">
+    <div class="text-primary ml-3" [routerLink]="['/casino']">
+        <span class="material-icons align-top">
+            keyboard_arrow_left
+        </span>
+        Zurück
+    </div>
+
+    <h1 class="text-center">Slot Machine</h1>
+</div>
+
+<div class="mt-5 container content">
+    <div class="card-group">
+        <div class="card h-100">
+            <img src="../../assets/cherry.svg" class="card-img-top" alt="...">
+        </div>
+        <div class="card h-100">
+            <img src="../../assets/watermelon-slice.svg" class="card-img-top" alt="...">
+        </div>
+        <div class="card h-100">
+            <img src="../../assets/lucky_seven.svg" class="card-img-top" alt="...">
+        </div>
+    </div>
+
+    <form [formGroup]="form" (submit)="submit()" class="mt-5">
+
+        <div class="form-row mt-5 mb-3">
+            <div class="form-group col-md-4">
+                <label for="profit">Gewinn</label>
+                <input type="number" disabled formControlName="profit" class="form-control" id="profit">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="value">Werte</label>
+                <input type="number" formControlName="value" class="form-control" id="value">
+            </div>
+            <div class="form-group col-md-4">
+                <label for="jetonLeft">Jeton übrig</label>
+                <input type="number" disabled class="form-control" formControlName="jetonLeft" id="jetonLeft">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block mt-5" [disabled]="!form.valid">Drehen</button>
+
+        </div>
+    </form>
+</div>

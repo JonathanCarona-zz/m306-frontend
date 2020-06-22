@@ -13,16 +13,18 @@ import { JetonService } from '../services/jeton.service';
 })
 export class JetonexchangeComponent implements OnInit {
   public currentJeton: number = 300
-  public jetonfactor: number = 5
+  public jetonfactor: number = 1
+  private sub: string
   public form: FormGroup
 
   constructor(private fb: FormBuilder, private router: Router, private http: HttpClient, private authService: AuthService, public jetonService: JetonService) { }
 
   ngOnInit(): void {
     let token = this.authService.activeJWT()
-    let sub = this.authService.decodeJWT(token).sub
-    console.log(sub)
-    this.jetonService.getUser(sub)
+    this.sub = this.authService.decodeJWT(token).sub
+    console.log(this.sub)
+    this.jetonService.getUser(this.sub)
+    this.jetonService.activeUser.subscribe(x => this.jetonfactor = x?.factor || 1)
 
     this.form = this.fb.group({
       jeton: ['', [Validators.required, Validators.min(1)]],
@@ -47,6 +49,8 @@ export class JetonexchangeComponent implements OnInit {
   submit(): void {
     if (!this.form.valid) return
     let jeton = this.form.get('jeton').value
+
+    this.jetonService.exchange(this.sub, jeton).subscribe(null, err => console.error(err), () => this.router.navigate(['/casino']))
     //TODO send request
     this.router.navigate(['/'])
   }

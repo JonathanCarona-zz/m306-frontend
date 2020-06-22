@@ -7,6 +7,7 @@ import { JetonexchangeComponent } from './jetonexchange/jetonexchange.component'
 import { ReactiveFormsModule } from '@angular/forms';
 import { CasinoDashboardComponent } from './casino-dashboard/casino-dashboard.component';
 import { SlotmachineComponent } from './slotmachine/slotmachine.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { SlotmachineComponent } from './slotmachine/slotmachine.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     ReactiveFormsModule
   ],
   providers: [],

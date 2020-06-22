@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../services/auth.service';
 import { environment } from 'src/environments/environment';
+import { JetonService } from '../services/jeton.service';
 
 @Component({
   selector: 'app-jetonexchange',
@@ -15,13 +16,13 @@ export class JetonexchangeComponent implements OnInit {
   public jetonfactor: number = 5
   public form: FormGroup
 
-  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private router: Router, private http: HttpClient, private authService: AuthService, public jetonService: JetonService) { }
 
   ngOnInit(): void {
     let token = this.authService.activeJWT()
     let sub = this.authService.decodeJWT(token).sub
-    this.http.get(`${environment.apiServerUrl}/jetons/${sub}`, this.authService.getHeaders()).subscribe(x => console.log(x))
-
+    console.log(sub)
+    this.jetonService.getUser(sub)
 
     this.form = this.fb.group({
       jeton: ['', [Validators.required, Validators.min(1)]],

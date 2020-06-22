@@ -1,6 +1,6 @@
 <div class="content container">
     <h1 class="mt-5 text-center">Jeton umwandeln</h1>
-    <h2 class="mt-5 text-center text-muted">Aktueller Stand: {{currentJeton}} Jeton(s)</h2>
+    <h2 class="mt-5 text-center text-muted">Aktueller Stand: {{jetonService?.activeUser?.jeton_amount}} Jeton(s)</h2>
     <form [formGroup]="form" (submit)="submit()">
 
         <div class="form-row mt-5 mb-3">

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { HttpHeaders } from '@angular/common/http';
 
 
 const JWTS_LOCAL_KEY = 'JWTS_LOCAL_KEY';
@@ -76,5 +77,13 @@ export class AuthService {
 
   can(permission: string) {
     return this.payload && this.payload.permissions && this.payload.permissions.length && this.payload.permissions.indexOf(permission) >= 0;
+  }
+
+  getHeaders() {
+    const header = {
+      headers: new HttpHeaders()
+        .set('Authorization', `Bearer ${this.activeJWT()}`)
+    };
+    return header;
   }
 }

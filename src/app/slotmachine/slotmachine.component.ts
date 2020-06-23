@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {SlotmachineService} from "../services/slotmachine.service";
+import {AuthService} from "../services/auth.service";
+import {JetonService} from "../services/jeton.service";
 
 @Component({
   selector: 'app-slotmachine',
@@ -8,18 +11,32 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class SlotmachineComponent implements OnInit {
   public form: FormGroup
-  constructor(private fb: FormBuilder) { }
+  public sub: string
+  public pics: number[] = [0, 0, 0]
+  constructor(private fb: FormBuilder, private slotmachineService: SlotmachineService, private authService: AuthService, private jetonService: JetonService) { }
 
   ngOnInit(): void {
+    let token = this.authService.activeJWT()
+    this.sub = this.authService.decodeJWT(token).sub
+    this.jetonService.getUser(this.sub)
+
     this.form = this.fb.group({
       profit: [''],
       value: ['', [Validators.required, Validators.min(1)]],
       jetonLeft: ['']
     })
+    this.jetonService.activeUser.subscribe(x => this.form.get('jetonLeft').setValue(x))
   }
 
   submit(): void {
     if (!this.form.valid) return
+
+    const bet = this.form.get('value').value
+    const jeton = this.form.get('jetonLeft').value
+    this.slotmachineService.spin(this.sub, bet, jeton).subscribe((x) => {
+      this.setFormValue(x.jeton_amount, x.profit)
+      this.pics = x.slotmachine_result
+    })
   }
 
   private setFormValue(jetonLeft: number, profit: number) {

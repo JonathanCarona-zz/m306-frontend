@@ -49,9 +49,12 @@ export class JetonexchangeComponent implements OnInit {
   submit(): void {
     if (!this.form.valid) return
     let jeton = this.form.get('jeton').value
-
-    this.jetonService.exchange(this.sub, jeton).subscribe(null, err => console.error(err), () => this.router.navigate(['/casino']))
-    //TODO send request
-    this.router.navigate(['/'])
+    this.jetonService.activeUser.subscribe(x => {
+      jeton += x.jeton_amount
+      this.jetonService.exchange(this.sub, jeton).subscribe(null, err => console.error(err), () => this.router.navigate(['/casino']))
+      //TODO send request
+      this.jetonService.activeUser.unsubscribe()
+      this.router.navigate(['/'])
+    }, err => console.error(err))
   }
 }

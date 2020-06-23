@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import {JetonService} from "../services/jeton.service";
 
 @Component({
   selector: 'app-casino-dashboard',
@@ -8,6 +9,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class CasinoDashboardComponent implements OnInit {
   public jetons: number = 300
+  public sub: string
   public games: CasinoGames[] = [
     {
       picPath: '../../assets/slot-machine-2304135_640.png',
@@ -16,9 +18,13 @@ export class CasinoDashboardComponent implements OnInit {
     }
   ]
 
-  constructor(public authservice: AuthService) { }
+  constructor(public authservice: AuthService, private jetonService: JetonService) { }
 
   ngOnInit(): void {
+    let token = this.authservice.activeJWT()
+    this.sub = this.authservice.decodeJWT(token).sub
+    this.jetonService.getUser(this.sub)
+    this.jetonService.activeUser.subscribe(x => this.jetons = x?.jeton_amount || 0)
   }
 
 }

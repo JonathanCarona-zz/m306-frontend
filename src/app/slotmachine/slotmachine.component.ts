@@ -15,6 +15,7 @@ export class SlotmachineComponent implements OnInit {
   public pics: number[] = [0, 0, 0]
   constructor(private fb: FormBuilder, private slotmachineService: SlotmachineService, private authService: AuthService, private jetonService: JetonService) { }
 
+  private jetonLeft: number
   ngOnInit(): void {
     let token = this.authService.activeJWT()
     this.sub = this.authService.decodeJWT(token).sub
@@ -25,21 +26,24 @@ export class SlotmachineComponent implements OnInit {
       value: ['', [Validators.required, Validators.min(1)]],
       jetonLeft: ['']
     })
-    this.jetonService.activeUser.subscribe(x => this.form.get('jetonLeft').setValue(x))
+    this.jetonService.activeUser.subscribe(x => {
+      this.form.get('jetonLeft').setValue(x?.jeton_amount ?? 0)
+      this.jetonLeft = x?.jeton_amount ?? 0
+    })
   }
 
   submit(): void {
     if (!this.form.valid) return
 
     const bet = this.form.get('value').value
-    const jeton = this.form.get('jetonLeft').value
-    this.slotmachineService.spin(this.sub, bet, jeton).subscribe((x) => {
+    this.slotmachineService.spin(this.sub, bet, this.jetonLeft).subscribe((x) => {
       this.setFormValue(x.jeton_amount, x.profit)
       this.pics = x.slotmachine_result
     })
   }
 
   private setFormValue(jetonLeft: number, profit: number) {
+
     this.form.setValue({
       profit: profit,
       value: this.form.get('value').value,
